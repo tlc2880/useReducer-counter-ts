@@ -1,26 +1,35 @@
-import { ReactNode, useReducer, ChangeEvent } from 'react'
+import { ReactNode, useReducer, useState, ChangeEvent } from 'react'
 
-const initState = { count: 0, text: '' }
+const initState = { count: 10, text: '' }
 
-const enum REDUCER_ACTION_TYPE {
-    INCREMENT,
-    DECREMENT,
-    NEW_INPUT,
-}
+// const enum REDUCER_ACTION_TYPE {
+//     INCREMENT,
+//     DECREMENT,
+//     RESET,
+//     ADD_INC,
+//     NEW_INPUT,
+// }
 
-type ReducerAction = {
-    type: REDUCER_ACTION_TYPE,
-    payload?: string,
-}
+type ReducerAction =
+    // type: REDUCER_ACTION_TYPE,
+    // payload?: string,
+      { type: "INCREMENT", payload: number }
+    | { type: "DECREMENT", payload: number }
+    | { type: "RESET", payload: 0 }
+    | { type: "ADD_INC", payload: number };
 
 const reducer = (state: typeof initState, action: ReducerAction): typeof initState => {
     switch (action.type) {
-        case REDUCER_ACTION_TYPE.INCREMENT:
-            return { ...state, count: state.count + 1 }
-        case REDUCER_ACTION_TYPE.DECREMENT:
-            return { ...state, count: state.count - 1 }
-        case REDUCER_ACTION_TYPE.NEW_INPUT:
-            return { ...state, text: action.payload ?? '' }
+        case "INCREMENT":
+            return { ...state, count: state.count + action.payload }
+        case "DECREMENT":
+            return { ...state, count: state.count - action.payload }
+        case "RESET":
+            return { ...state, count: action.payload }
+        case "ADD_INC":
+            return { ...state, count: state.count + action.payload }
+        // case REDUCER_ACTION_TYPE.NEW_INPUT:
+        //     return { ...state, text: action.payload ?? '' }
         default:
             throw new Error()
     }
@@ -31,15 +40,26 @@ type ChildrenType = {
 }
 
 const Counter = ({ children }: ChildrenType) => {
-    const [state, dispatch] = useReducer(reducer, initState)
+    const [state, dispatch] = useReducer(reducer, initState);
+    const [incAmount, setIncAmount] = useState("2");
 
-    const increment = () => dispatch({ type: REDUCER_ACTION_TYPE.INCREMENT })
-    const decrement = () => dispatch({ type: REDUCER_ACTION_TYPE.DECREMENT })
+    const increment = () => dispatch({ 
+        type: "INCREMENT",
+        payload: 10
+      })
+    const decrement = () => dispatch({ 
+        type: "DECREMENT",
+        payload: 5
+     })
+    const reset = () => dispatch({ 
+        type: "RESET",
+        payload: 0
+     })
+    const add_inc = () => dispatch({ 
+        type: "ADD_INC",
+        payload: Number(incAmount) })
     const handleTextInput = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch({
-            type: REDUCER_ACTION_TYPE.NEW_INPUT,
-            payload: e.target.value
-        })
+        setIncAmount(e.target.value);
     }
 
     return (
@@ -48,8 +68,14 @@ const Counter = ({ children }: ChildrenType) => {
             <div>
                 <button onClick={increment}>+</button>
                 <button onClick={decrement}>-</button>
+                <button onClick={reset}>Reset</button>
+                <button onClick={add_inc}>Add Inc.</button>
             </div>
-            <input type="text" onChange={handleTextInput} />
+            <input 
+                type="text"
+                value={incAmount}
+                onChange={handleTextInput} 
+            />
             <h2>{state.text}</h2>
         </>
     )
