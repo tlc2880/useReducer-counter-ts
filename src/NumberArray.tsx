@@ -41,7 +41,7 @@ type ChildrenType = {
     children: (numArray: number[]) => ReactNode
 }
 
-const CounterArray = ({ children }: ChildrenType) => {
+const NumberArray = ({ children }: ChildrenType) => {
     const [state, dispatch] = useReducer(reducer, initState)
     const [arrMultAmt, setArrMultAmt] = useState(2);
     const [arrPushNum, setArrPushNum] = useState(2);
@@ -66,24 +66,24 @@ const CounterArray = ({ children }: ChildrenType) => {
 
     return (
         <>
-            <h1>{children(state.numArray)}</h1>
+            <h2>{children(state.numArray)}</h2>
             <div>
                 <input 
                     type="text"
                     value={arrMultAmt}
                     onChange={handleTextInput} 
                 />
-                <button onClick={ mult_array }>Mult Array</button>
+                <button onClick={ mult_array }>Mult Num Array</button>
                 <br/>
                 <input 
                     type="text"
                     value={arrPushNum}
                     onChange={handlePushInput} 
                 />
-                <button onClick={ push_array }>Push Array</button>
+                <button onClick={ push_array }>Push Num Array</button>
             </div>
         </>
     )
 }
 
-export default CounterArray;
+export default NumberArray;

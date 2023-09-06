@@ -1,6 +1,9 @@
 import { ReactNode, useReducer, useState, ChangeEvent } from 'react'
 
-const initState = { count: 0, text: '' }
+const initState = { 
+    count: 0,
+    text: '' 
+}
 
 const enum REDUCER_ACTION_TYPE {
     INCREMENT,
@@ -53,7 +56,7 @@ const Counter = ({ children }: ChildrenType) => {
 
     return (
         <>
-            <h1>{children(state.count)}</h1>
+            <h2>{children(state.count)}</h2>
             <div>
                 <button onClick={increment}>+</button>
                 <button onClick={decrement}>-</button>
