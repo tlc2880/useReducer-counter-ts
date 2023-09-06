@@ -7,7 +7,7 @@ const enum REDUCER_ACTION_TYPE {
     // DECREMENT,
     // RESET,
     // ADD_INC,
-    // ADD_ARRAY,
+    PUSH_ARRAY,
     MULT_ARRAY,
 //    NEW_INPUT,
 }
@@ -37,6 +37,13 @@ const reducer = (state: typeof initState, action: ReducerAction): typeof initSta
               ...state,
               numArray: numArrTemp
             };
+
+        case REDUCER_ACTION_TYPE.PUSH_ARRAY:
+            return {
+                ...state,
+                numArray: [...state.numArray, state.numArray.length + 1]
+            };
+
         // case REDUCER_ACTION_TYPE.NEW_INPUT:
         //     return { ...state, text: action.payload ?? '' }
         default:
@@ -63,7 +70,12 @@ const Counter = ({ children }: ChildrenType) => {
     const mult_array = () => dispatch({ 
         type: REDUCER_ACTION_TYPE.MULT_ARRAY,
         payload: Number(arrMultAmt) 
-    })
+    });
+
+    const push_array = () => dispatch({
+        type: REDUCER_ACTION_TYPE.PUSH_ARRAY,
+        payload: 1
+    });
 
     const handleTextInput = (e: ChangeEvent<HTMLInputElement>) => {
         setArrMultAmt(Number(e.target.value));
@@ -78,6 +90,7 @@ const Counter = ({ children }: ChildrenType) => {
                 <button onClick={reset}>Reset</button>
                 <button onClick={add_inc}>Add Inc.</button> */}
                 <button onClick={ mult_array }>Mult Array</button>
+                <button onClick={ push_array }>Add Array</button>
             </div>
             <input 
                 type="text"
